@@ -5,16 +5,19 @@ const userSchema = mongoose.Schema(
   {
     username: {
       type: String,
-      required: [true, 'Enter a username'],
+      required: [true, 'Enter a username']
+    },
+    email: {
+      type: String
     },
     password: {
       type: String,
-      required: [true, 'Enter a password'],
+      required: [true, 'Enter a password']
     },
     role: {
       type: String,
-      default: 'client',
-    },
+      default: 'client'
+    }
   },
   {
     timestamps: true,

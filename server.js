@@ -1,8 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const exampleRoutes = require('./routes/exampleRoute');
-const authentication = require('./routes/authRoute');
+const routes = require('./routes/index');
 
 dotenv.config();
 
@@ -15,18 +14,17 @@ app.use(express.json());
 
 // on init
 app.get('/', (req, res) => {
-    res.send('Hello')
+  res.send('Hello')
 })
 
 
 // Routes
-app.use('/auth', authentication);
-app.use('/examples', exampleRoutes);
+app.use('/', routes);
 
 // Error middleware
 app.use(require('./middleware/errorMiddleware'));
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 1400;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
