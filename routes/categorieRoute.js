@@ -8,10 +8,12 @@ const router = express.Router();
 router.get('/list', categorieController.getCategorie);
 router.get('/:id', categorieController.getCategorieByID);
 
+router.post('/create', asyncHandler(categorieController.createCategorie));
+
 // Protected routes (require authentication)
 router.use(protect);
 
-router.post('/create', checkManagerRole, asyncHandler(categorieController.createCategorie));
+// router.post('/create', checkManagerRole, asyncHandler(categorieController.createCategorie));
 router.put('/update/:id', checkManagerRole, categorieController.updateCategorie);
 router.delete('/delete/:id', checkManagerRole, categorieController.deleteCategorie);
 
