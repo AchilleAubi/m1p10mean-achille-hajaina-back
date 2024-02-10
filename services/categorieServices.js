@@ -1,11 +1,20 @@
 const SousCategorie = require('../models/sousCategorie');
-const Categorie = require('../models/categorie')
+const Categorie = require('../models/categorie');
+const SousCategorieServices = require('../services/sousCategorieServices');
 
 const categorieServices = {
     async getCategorie() {
         try {
-            const categories = await Categorie.find({});
-            return categories;
+            const formattedCategories = {
+                categories: []
+            };
+            const categories = await Categorie.find({}).populate('sousCategories');
+            for (let index = 0; index < categories.length; index++) {
+                const sousCategorie = await SousCategorieServices.getSousCategorieByIDCategorie(categories[index]._id);
+                categories[index].sousCategories = sousCategorie;
+                formattedCategories.categories.push(categories[index]);
+            }
+            return formattedCategories;
         } catch (error) {
             throw new error(error.message);
         }
@@ -14,22 +23,15 @@ const categorieServices = {
     async getCategorieByID(id) {
         try {
             const categorie = await Categorie.findById(id).populate('sousCategories');
-
+            const sousCategorie = await SousCategorieServices.getSousCategorieByIDCategorie(id);
             if (!categorie) {
                 throw new Error('Categorie not found');
             }
-
             const formattedCategories = {
                 categories: [{
                     name: categorie.name,
                     description: categorie.description,
-                    sousCategories: categorie.sousCategories.map(sousCategorie => ({
-                        name: sousCategorie.name,
-                        description: sousCategorie.description,
-                        duree: sousCategorie.duree,
-                        prix: sousCategorie.prix,
-                        commission: sousCategorie.commission
-                    }))
+                    sousCategories: sousCategorie
                 }]
             };
 
