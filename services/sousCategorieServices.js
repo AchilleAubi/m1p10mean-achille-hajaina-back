@@ -24,9 +24,7 @@ const sousCategorieServices = {
         try {
             let result = '';
             const existingCategorie = await Categorie.findById(sousCategorieBody.id_Categorie);
-            console.log('existingCategorie', existingCategorie);
             if (existingCategorie) {
-                console.log('result', result);
                 const existingSousCategorie = await SousCategorie.findOne({ name: sousCategorieBody.name });
                 if (existingSousCategorie) {
                     result = 'SousCategorie already exists in the specified Categorie';
@@ -36,7 +34,6 @@ const sousCategorieServices = {
                 }
             }
             else {
-                console.log('else');
                 result = 'Categorie not exists';
             }
             return result;
@@ -47,13 +44,12 @@ const sousCategorieServices = {
 
     async getSousCategorieByIDCategorie(categorieId) {
         try {
-            console.log('categorieId', categorieId);
             const sousCategories = await SousCategorie.find({ id_Categorie: categorieId }).populate('id_Categorie');
             return sousCategories;
         } catch (error) {
             throw new error(error.message);
         }
-    },
+    }
 }
 
 module.exports = sousCategorieServices;

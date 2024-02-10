@@ -1,5 +1,3 @@
-const SousCategorie = require('../models/sousCategorie');
-const Categorie = require('../models/categorie');
 const SousCategorieServices = require('../services/sousCategorieServices');
 const asyncHandler = require('express-async-handler');
 
@@ -26,12 +24,12 @@ const sousCategorieController = {
     }),
 
     createSousCategorie: asyncHandler(async (req, res) => {
-        const nameCategorie = req.body.nameCategorie;
-        const categorieId = req.body.categorie;
         try {
+            const io = req.app.get('io');
             for (let index = 0; index < req.body.length; index++) {
                 const sousCategories = await SousCategorieServices.createSousCategorie(req.body[index]);
             }
+            io.emit('newSousCategoryAdded', categories);
             res.status(200).json("Insert ok");
         } catch (error) {
             console.error(error);
@@ -47,9 +45,7 @@ const sousCategorieController = {
             console.log(error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
-    }),
-
-
+    })
 
 }
 

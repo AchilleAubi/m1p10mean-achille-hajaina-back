@@ -9,6 +9,8 @@ router.get('/list', categoriesController.getCategorie);
 router.get('/:id', categoriesController.getCategorieByID);
 
 router.post('/create', asyncHandler(categoriesController.createCategorie));
+router.put('/update/:id', categoriesController.updateCategorie);
+router.delete('/delete/:id', categoriesController.deleteCategorie);
 
 // Protected routes (require authentication)
 router.use(protect);
