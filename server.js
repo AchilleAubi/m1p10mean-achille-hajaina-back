@@ -1,8 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const cors = require('cors')
+const cors = require('cors');
 const routes = require('./routes/index');
+const http = require('http');
 
 dotenv.config();
 
@@ -14,10 +15,20 @@ mongoose.connect(process.env.MONGO_URL);
 app.use(express.json());
 app.use(cors());
 
+const server = http.createServer(app);
+const io = require('socket.io')(server, {
+  cors: {
+    origin: "http://localhost:4200",
+    methods: ["GET", "POST", "PUT", "DELETE"]
+  }
+});
+
+app.set('io', io);
+
 // on init
 app.get('/', (req, res) => {
-  res.send('Hello')
-})
+  res.send('Hello');
+});
 
 // Routes
 app.use('/', routes);
@@ -27,6 +38,6 @@ app.use(require('./middleware/errorMiddleware'));
 
 const PORT = process.env.PORT || 1400;
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
