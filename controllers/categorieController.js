@@ -32,16 +32,18 @@ const categorieController = {
     createCategorie: asyncHandler(async (req, res) => {
         const name = req.body.name;
         try {
+            const io = req.app.get('io');
             const existingCategorie = await Categorie.findOne({ name });
             if (existingCategorie) {
-                res.status(400).json({ error: 'Categorie is already exist' });
+                return res.status(400).json({ error: 'Category already exists' });
             } else {
                 const categorie = await Categorie.create(req.body);
-                res.status(200).json(categorie);
+                io.emit('newCategoryAdded', categorie);
+                return res.status(200).json(categorie);
             }
         } catch (error) {
             console.error(error);
-            res.status(500).json({ error: 'Internal Server Error' });
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
     }),
 
