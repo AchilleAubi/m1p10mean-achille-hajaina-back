@@ -1,4 +1,5 @@
 const Categorie = require('../models/categorie')
+const SousCategorie = require('../models/sousCategorie')
 const asyncHandler = require('express-async-handler')
 
 const categorieController = {
@@ -14,8 +15,13 @@ const categorieController = {
 
     getCategorieByID: asyncHandler(async (req, res) => {
         try {
-            const { id } = req.params;
-            const categorie = await Categorie.findById(id);
+            const idCategorie = req.params.id;
+            const categorie = await Categorie.findById(idCategorie);
+            if (categorie) {
+                const sousCategories = await SousCategorie.find({ categorie: '65c730596392166c1553976c' });
+                console.log('sousCategories', sousCategories);
+                categorie.sousCategories = sousCategories;
+            }
             res.status(200).json(categorie);
         } catch (error) {
             res.status(500);
