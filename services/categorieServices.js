@@ -1,6 +1,5 @@
-const SousCategorie = require('../models/sousCategorie');
 const Categorie = require('../models/categorie');
-const SousCategorieServices = require('../services/sousCategorieServices');
+const ServiceSalonServices = require('../services/serviceSalonServices');
 
 const categorieServices = {
     async getCategorie() {
@@ -8,22 +7,24 @@ const categorieServices = {
             const formattedCategories = {
                 categories: []
             };
-            const categories = await Categorie.find({}).populate('sousCategories');
+            const categories = await Categorie.find({}).populate('service');
             for (let index = 0; index < categories.length; index++) {
-                const sousCategorie = await SousCategorieServices.getSousCategorieByIDCategorie(categories[index]._id);
-                categories[index].sousCategories = sousCategorie;
+                const service = await ServiceSalonServices.getServiceByIDCategorie(categories[index]._id);
+                categories[index].service = service;
                 formattedCategories.categories.push(categories[index]);
             }
+            console.log('formattedCategories', formattedCategories);
             return formattedCategories;
         } catch (error) {
+            console.log(error);
             throw new error(error.message);
         }
     },
 
     async getCategorieByID(id) {
         try {
-            const categorie = await Categorie.findById(id).populate('sousCategories');
-            const sousCategorie = await SousCategorieServices.getSousCategorieByIDCategorie(id);
+            const categorie = await Categorie.findById(id).populate('service');
+            const sousCategorie = await ServiceSalonServices.getServiceByIDCategorie(id);
             if (!categorie) {
                 throw new Error('Categorie not found');
             }
