@@ -46,7 +46,6 @@ const serviceSalonServices = {
 
     async getServiceByIDCategorie(categorieId) {
         try {
-            console.log('categorieId', categorieId);
             const services = await ServiceModel.find({ id_Categorie: categorieId }).populate('id_Categorie');
             return services;
         } catch (error) {

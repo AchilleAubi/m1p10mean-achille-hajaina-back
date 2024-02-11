@@ -13,7 +13,6 @@ const categorieServices = {
                 categories[index].service = service;
                 formattedCategories.categories.push(categories[index]);
             }
-            console.log('formattedCategories', formattedCategories);
             return formattedCategories;
         } catch (error) {
             console.log(error);
