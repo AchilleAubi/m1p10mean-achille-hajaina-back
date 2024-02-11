@@ -21,7 +21,13 @@ const serviceSchema = mongoose.Schema(
         id_Categorie: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Categorie'
-        }
+        },
+        image: [
+            {
+                name: {
+                    type: String
+                }
+            }]
     },
     {
         timestamps: true

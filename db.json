@@ -1,0 +1,41 @@
+{
+    "Utilisateur": {
+        "id": 1,
+        "name": "Hajaina",
+        "email": "test",
+        "mtps": "test",
+        "role": {
+            "name": "Manager"
+        }
+    },
+    "Manager": {
+        "id": 1,
+        "Horairetravailer": "",
+        "utlisateur": {
+            "idUtilisateur": 1
+        }
+    },
+    "Employe": {
+        "id": 1,
+        "Horairetravailer": "",
+        "utlisateur": {
+            "idUtilisateur": 1
+        }
+    },
+    "PortFeuille": {
+        "id": 1,
+        "EntrerMontant": 200,
+        "SortiMontant": 0,
+        "utlisateur": {
+            "idUtilisateur": 1
+        }
+    },
+    "HeurTravail": {
+        "id": 1,
+        "dateDebut": "",
+        "dateFin": "",
+        "utlisateur": {
+            "idUtilisateur": 1
+        }
+    }
+}
