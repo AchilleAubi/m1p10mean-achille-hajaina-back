@@ -30,21 +30,21 @@ const protect = asyncHandler(async (req, res, next) => {
 });
 
 const checkManagerRole = (req, res, next) => {
-    if (req.user && req.user.role === 'manager') {
-      next();
-    } else {
-      res.status(403);
-      throw new Error('Not authorized, not a manager');
-    }
+  if (req.user && req.user.role === 'manager') {
+    next();
+  } else {
+    res.status(403);
+    throw new Error('Not authorized, not a manager');
+  }
 };
 
 const checkEmployeeRole = (req, res, next) => {
-    if (req.user && req.user.role === 'manager') {
-      next();
-    } else {
-      res.status(403);
-      throw new Error('Not authorized, not a manager');
-    }
+  if (req.user && req.user.role === 'manager') {
+    next();
+  } else {
+    res.status(403);
+    throw new Error('Not authorized, not a manager');
+  }
 };
 
-module.exports = { protect , checkManagerRole, checkEmployeeRole};
+module.exports = { protect, checkManagerRole, checkEmployeeRole };
