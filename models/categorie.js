@@ -12,7 +12,13 @@ const categorieShema = mongoose.Schema(
         service: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Service'
-        }]
+        }],
+        image: [
+            {
+                name: {
+                    type: String
+                }
+            }]
     },
     {
         timestamps: true
