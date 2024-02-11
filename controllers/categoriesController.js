@@ -1,8 +1,7 @@
-const Categorie = require('../models/categorie');
 const CategorieServices = require('../services/categorieServices');
 const asyncHandler = require('express-async-handler');
 
-const sousCategoriesController = {
+const categoriesController = {
     getCategorie: asyncHandler(async (req, res) => {
         try {
             const categories = await CategorieServices.getCategorie();
@@ -79,4 +78,4 @@ const sousCategoriesController = {
     })
 }
 
-module.exports = sousCategoriesController;
+module.exports = categoriesController;

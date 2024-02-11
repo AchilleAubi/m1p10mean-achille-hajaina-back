@@ -1,24 +1,25 @@
 const mongoose = require('mongoose');
 
-const categorieShema = mongoose.Schema(
+const imagesShema = mongoose.Schema(
     {
         name: {
             type: String,
             required: [true, "Enter a name"]
         },
-        description: {
-            type: String
+        idCategory: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Categorie'
         },
-        service: [{
+        idService: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Service'
-        }]
+        }
     },
     {
         timestamps: true
     }
 )
 
-const Categorie = mongoose.model('Categorie', categorieShema);
+const Images = mongoose.model('Images', imagesShema);
 
-module.exports = Categorie;
+module.exports = Images;

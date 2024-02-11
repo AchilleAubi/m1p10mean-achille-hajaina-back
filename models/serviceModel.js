@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const sousCategorieSchema = mongoose.Schema(
+const serviceSchema = mongoose.Schema(
     {
         name: {
             type: String,
@@ -28,6 +28,6 @@ const sousCategorieSchema = mongoose.Schema(
     }
 )
 
-const SousCategorie = mongoose.model('SousCategorie', sousCategorieSchema);
+const ServiceModel = mongoose.model('Service', serviceSchema);
 
-module.exports = SousCategorie;
+module.exports = ServiceModel;
