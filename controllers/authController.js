@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const asyncHandler = require('express-async-handler');
 
+let invalidToken = [];
+
 const authController = {
   login: asyncHandler(async (req, res) => {
     const { username, password } = req.body;
@@ -10,7 +12,7 @@ const authController = {
 
     if (user && (await user.matchPassword(password))) {
       const token = generateToken(user._id, user.role);
-      res.json({ _id: user._id, username: user.username, role: user.role, token });
+      res.json({ _id: user._id, username: user.username, role: user.role, token, email: user.email });
     } else {
       res.status(401);
       throw new Error('Invalid username or password');
@@ -43,12 +45,13 @@ const authController = {
       _id: newUser._id,
       username: newUser.username,
       role: newUser.role,
-      token,
+      token
     });
   }),
 
   logout: asyncHandler(async (req, res) => {
-    res.clearCookie('token');
+    const token = req.headers.authorization.split(' ')[1];
+    invalidToken.push(token);
     res.json({ message: 'Déconnexion réussie' });
   })
 

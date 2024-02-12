@@ -35,7 +35,17 @@ const userSchema = mongoose.Schema(
     role: {
       type: String,
       default: 'client'
-    }
+    },
+    salaire: [{
+      date: {
+        type: Date,
+        default: Date.now
+      },
+      salaire: {
+        type: Number,
+        default: 0
+      }
+    }],
   },
   {
     timestamps: true,
