@@ -10,12 +10,10 @@ const rendezVousSchema = mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         },
-        Service: [{
-            idService: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Service'
-            }
-        }],
+        Service: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Service'
+        },
         dateTime: {
             type: Date
         },
@@ -24,7 +22,8 @@ const rendezVousSchema = mongoose.Schema(
         },
         etat: [{
             name: {
-                type: String
+                type: String,
+                default: 'En coure de traitement'
             },
             date: {
                 type: Date,

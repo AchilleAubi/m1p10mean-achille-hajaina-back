@@ -24,7 +24,17 @@ const rendezVousServices = {
 
     async getAllRendezVous() {
         try {
-            const reponse = await RendezVous.find({});
+            const reponse = await RendezVous.find({}).populate('Service');
+            return reponse;
+        } catch (error) {
+            console.log(error);
+            throw new error(error.message);
+        }
+    },
+
+    async getRendezVousByEmploye(idEmploye) {
+        try {
+            const reponse = await RendezVous.find({ Employe: idEmploye });
             return reponse;
         } catch (error) {
             console.log(error);
