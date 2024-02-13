@@ -32,6 +32,10 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, 'Enter a password']
     },
+    image: {
+      type: String,
+      default: 'user.png'
+    },
     role: {
       type: String,
       default: 'client'
