@@ -7,12 +7,34 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, 'Enter a username']
     },
+    emplois: [{
+      nom: {
+        type: String,
+        required: [true, 'Enter a username']
+      }
+    }],
+    pays: {
+      type: String,
+      default: 'Madagascar'
+    },
+    adresse: {
+      type: String,
+      default: 'Antanety LOT IVD 34 Q'
+    },
+    phone: {
+      type: String,
+      default: '1234567890'
+    },
     email: {
       type: String
     },
     password: {
       type: String,
       required: [true, 'Enter a password']
+    },
+    image: {
+      type: String,
+      default: 'user.png'
     },
     role: {
       type: String,

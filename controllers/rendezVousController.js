@@ -23,6 +23,16 @@ const rendezVousController = {
             res.status(500).json({ error: 'Internal Server Error' });
         }
     }),
+
+    getRendezVousByEmploye: asyncHandler(async (req, res) => {
+        try {
+            const data = await RendezVousServices.getAllRendezVous(req.params.id);
+            res.status(200).json(data);
+        } catch (error) {
+            res.status(500);
+            throw new error(error.message);
+        }
+    })
 }
 
 module.exports = rendezVousController;

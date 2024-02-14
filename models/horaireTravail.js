@@ -8,12 +8,10 @@ const horaireTravailSchema = mongoose.Schema(
         dateTimeFin: {
             type: Date
         },
-        User: [{
-            idUser: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'User'
-            }
-        }]
+        User: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
     },
     {
         timestamps: true,

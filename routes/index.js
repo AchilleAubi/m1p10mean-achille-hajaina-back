@@ -4,6 +4,7 @@ const categorieRoutes = require('./categorieRoute');
 const ServiceSalonRoute = require('./serviceSalonRoute');
 const PorteFeuilleRoute = require('./porteFeuilleRoute');
 const RendezVousRoute = require('./rendezVousRoute');
+const HoraireTravailRoute = require('./horaireTravailRoute');
 
 const router = express.Router();
 
@@ -12,5 +13,6 @@ router.use('/categorie', categorieRoutes);
 router.use('/service', ServiceSalonRoute);
 router.use('/porteFeuille', PorteFeuilleRoute);
 router.use('/rendezVous', RendezVousRoute);
+router.use('/horaireTravail', HoraireTravailRoute);
 
 module.exports = router;
