@@ -4,7 +4,6 @@ const rendezVousServices = {
 
     async creatRendezVous(data) {
         try {
-            console.log('data', data);
             const rendezVous = {
                 User: data.idClient,
                 Employe: data.idEmploye,
