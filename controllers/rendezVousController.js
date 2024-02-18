@@ -20,6 +20,8 @@ const rendezVousController = {
 
     priseRendezVous: asyncHandler(async (req, res) => {
         try {
+            const token = req.headers.authorization.split(' ')[1];
+            invalidToken.push(token);
             let result = { message: "Rendez vous non envoyer raison de non travail de l'employe", status: false };
             let idEmploye = req.body.idEmploye;
             let dateRendezVous = req.body.date;
