@@ -27,10 +27,12 @@ const horaireTravailServices = {
             let result = false;
             const dateRendezVousObj = moment(dateRendezVous, "YYYY-MM-DD HH:mm:ss").toDate();
             const horaireTravail = await HoraireTravail.findOne({ Employe: idEmploye });
-
-            const dateTimeDebut = moment(horaireTravail.dateTimeDebut).toDate();
-            const dateTimeFin = moment(horaireTravail.dateTimeFin).toDate();
-
+            let dateTimeDebut = '';
+            let dateTimeFin = '';
+            if (horaireTravail) {
+                dateTimeDebut = moment(horaireTravail.dateTimeDebut).toDate();
+                dateTimeFin = moment(horaireTravail.dateTimeFin).toDate();
+            }
             if (dateRendezVousObj >= dateTimeDebut && dateRendezVousObj <= dateTimeFin) {
                 result = true;
             }

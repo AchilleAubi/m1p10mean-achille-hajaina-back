@@ -57,9 +57,18 @@ const rendezVousController = {
 
     validerRendezVous: asyncHandler(async (req, res) => {
         try {
+            const valider = { name: 'Valider', color: 'success' }
             const token = req.headers.authorization.split(' ')[1];
             invalidToken.push(token);
+            let idRendezVous = req.body.idRendezVous;
+            let idEmploye = req.body.idEmploye;
             let result = { message: "Rendez non valider", status: false };
+            const updateEmploye = await RendezVousServices.updateEmploye(idRendezVous, idEmploye);
+            const updateEtat = await RendezVousServices.updateEtat(idRendezVous, valider.name, valider.color);
+            if (updateEmploye && updateEtat) {
+                result.message = "Rendez valider";
+                result.status = true;
+            }
             res.status(200).json(result);
         } catch (error) {
             res.status(500);
