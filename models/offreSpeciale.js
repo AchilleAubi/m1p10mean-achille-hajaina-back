@@ -2,12 +2,10 @@ const mongoose = require('mongoose');
 
 const offreSpecialeSchema = mongoose.Schema(
     {
-        Service: [{
-            idService: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Service'
-            }
-        }],
+        Service: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Service'
+        },
         dateDebut: {
             type: Date,
             default: Date.now

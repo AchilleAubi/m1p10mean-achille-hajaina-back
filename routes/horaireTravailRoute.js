@@ -5,7 +5,7 @@ const asyncHandler = require('express-async-handler');
 
 const router = express.Router();
 
-router.get('/list/user/:idUser', HoraireTravailController.getHoraireTravail);
+router.get('/list/user/:idEmploye', HoraireTravailController.getHoraireTravail);
 router.post('/creat', HoraireTravailController.creatHoraireTravail);
 
 router.use(protect);

@@ -9,7 +9,8 @@ router.post('/priseRendezVous', rendezVousController.priseRendezVous);
 router.use(protect);
 
 router.get('/list', rendezVousController.getAllRendezVous);
-router.get('/listRendezVous/employe/:id ', rendezVousController.getRendezVousByEmploye);
+router.get('/list/:idEmploye', rendezVousController.getRendezVousByEmploye);
+router.post('/valider', rendezVousController.validerRendezVous);
 
 module.exports = router;
 
