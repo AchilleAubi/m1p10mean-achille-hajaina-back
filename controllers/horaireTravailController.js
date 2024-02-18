@@ -5,8 +5,8 @@ const horaireTravailController = {
 
     getHoraireTravail: asyncHandler(async (req, res) => {
         try {
-            const idUser = req.params.idUser;
-            const data = await HoraireTravailServices.getByIdUtilisateur(idUser);
+            const idEmploye = req.params.idEmploye;
+            const data = await HoraireTravailServices.getByIdEmploye(idEmploye);
             res.status(200).json(data);
         } catch (error) {
             res.status(500);

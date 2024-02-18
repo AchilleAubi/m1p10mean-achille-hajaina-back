@@ -8,7 +8,7 @@ const horaireTravailSchema = mongoose.Schema(
         dateTimeFin: {
             type: Date
         },
-        User: {
+        Employe: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         }

@@ -23,7 +23,11 @@ const rendezVousSchema = mongoose.Schema(
         etat: [{
             name: {
                 type: String,
-                default: 'En coure de traitement'
+                default: 'En cours de validation'
+            },
+            color: {
+                type: String,
+                default: 'warning'
             },
             date: {
                 type: Date,

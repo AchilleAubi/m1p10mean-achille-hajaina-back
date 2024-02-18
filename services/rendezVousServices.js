@@ -33,7 +33,7 @@ const rendezVousServices = {
 
     async getRendezVousByEmploye(idEmploye) {
         try {
-            const reponse = await RendezVous.find({ Employe: idEmploye });
+            const reponse = await RendezVous.find({ Employe: idEmploye }).populate('Service');
             return reponse;
         } catch (error) {
             console.log(error);
