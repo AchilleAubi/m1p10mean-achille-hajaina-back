@@ -9,6 +9,7 @@ const emailRoute = require('./emailRoute');
 const preferanceRoute = require('./preferanceRoute');
 const offreSpecialeRoute = require('./offreSpecialeRoute');
 const employeRoute = require('./employeRoute');
+const paiment = require('./paimentRoute');
 
 const router = express.Router();
 
@@ -22,5 +23,6 @@ router.use('/send-email', emailRoute);
 router.use('/preferance', preferanceRoute);
 router.use('/offreSpeciale', offreSpecialeRoute);
 router.use('/employe', employeRoute);
+router.use('/paiment', paiment);
 
 module.exports = router;

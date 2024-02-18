@@ -13,7 +13,7 @@ const offreSpecialeSchema = mongoose.Schema(
         dateFin: {
             type: Date
         },
-        prix: {
+        pourcentage: {
             type: Number
         },
         titre: {
