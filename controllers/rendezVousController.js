@@ -78,8 +78,6 @@ const rendezVousController = {
 
     verifierRendezVous: asyncHandler(async (req, res) => {
         try {
-            const token = req.headers.authorization.split(' ')[1];
-            invalidToken.push(token);
             let arrayResult = [];
             let idEmploye = '';
             let idservice = '';

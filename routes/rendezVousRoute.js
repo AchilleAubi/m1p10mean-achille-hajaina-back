@@ -3,11 +3,11 @@ const rendezVousController = require('../controllers/rendezVousController');
 const { protect } = require('../middleware/authMiddleware');
 
 const router = express.Router();
+router.post('/verifier', rendezVousController.verifierRendezVous);
 
 // Protected routes (require authentication)
 router.use(protect);
 
-router.post('/verifier', rendezVousController.verifierRendezVous);
 router.post('/priseRendezVous', rendezVousController.priseRendezVous);
 router.get('/list', rendezVousController.getAllRendezVous);
 router.get('/list/:idEmploye', rendezVousController.getRendezVousByEmploye);
