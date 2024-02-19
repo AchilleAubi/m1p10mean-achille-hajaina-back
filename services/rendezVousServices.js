@@ -9,6 +9,7 @@ const rendezVousServices = {
                 Employe: data.idEmploye,
                 Service: data.service,
                 dateTime: data.date,
+                token: data.token,
                 etat: [{
                     name: "Encour de traitement"
                 }]
