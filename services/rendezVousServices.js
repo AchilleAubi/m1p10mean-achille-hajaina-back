@@ -42,9 +42,9 @@ const rendezVousServices = {
         }
     },
 
-    async getRendezVousByEmploye(idEmploye) {
+    async getRendezVousNonValiderByEmploye(idEmploye) {
         try {
-            const reponse = await RendezVous.find({ Employe: { $in: [idEmploye, null] } }).populate('Service');
+            const reponse = await RendezVous.find({ Employe: { $in: [idEmploye, null] }, 'etat.1': { $exists: false } }).populate('Service');
             return reponse;
         } catch (error) {
             console.log(error);

@@ -10,7 +10,7 @@ const rendezVousController = {
         try {
             const token = req.headers.authorization.split(' ')[1];
             invalidToken.push(token);
-            const data = await RendezVousServices.getRendezVousByEmploye(req.params.idEmploye);
+            const data = await RendezVousServices.getRendezVousNonValiderByEmploye(req.params.idEmploye);
             res.status(200).json(data);
         } catch (error) {
             res.status(500);
@@ -67,6 +67,27 @@ const rendezVousController = {
             const updateEtat = await RendezVousServices.updateEtat(idRendezVous, valider.name, valider.color);
             if (updateEmploye && updateEtat) {
                 result.message = "Rendez valider";
+                result.status = true;
+            }
+            res.status(200).json(result);
+        } catch (error) {
+            res.status(500);
+            throw new error(error.message);
+        }
+    }),
+
+    refuserRendezVous: asyncHandler(async (req, res) => {
+        try {
+            const valider = { name: req.body.raison, color: 'danger' }
+            const token = req.headers.authorization.split(' ')[1];
+            invalidToken.push(token);
+            let idRendezVous = req.body.idRendezVous;
+            let idEmploye = req.body.idEmploye;
+            let result = { message: "Rendez-vous non refuser", status: false };
+            const updateEmploye = await RendezVousServices.updateEmploye(idRendezVous, idEmploye);
+            const updateEtat = await RendezVousServices.updateEtat(idRendezVous, valider.name, valider.color);
+            if (updateEmploye && updateEtat) {
+                result.message = "Rendez-vous refuser";
                 result.status = true;
             }
             res.status(200).json(result);
