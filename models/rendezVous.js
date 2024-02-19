@@ -20,6 +20,9 @@ const rendezVousSchema = mongoose.Schema(
         notes: {
             type: String
         },
+        token: {
+            type: String
+        },
         etat: [{
             name: {
                 type: String,

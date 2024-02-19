@@ -22,23 +22,21 @@ const rendezVousController = {
         try {
             const token = req.headers.authorization.split(' ')[1];
             invalidToken.push(token);
-            let result = { message: "Rendez vous non envoyer raison de non travail de l'employe", status: false };
-            let idEmploye = req.body.idEmploye;
-            let dateRendezVous = req.body.date;
+            let arrayResult = [];
             let data = '';
-            if (idEmploye != null) {
-                const checkHoraireTravail = await HoraireTravailServices.checkIfHoraireTravail(idEmploye, dateRendezVous);
-                if (checkHoraireTravail) {
-                    result.message = 'Rendez-vous envoyer';
-                    result.status = true;
-                    data = await RendezVousServices.creatRendezVous(req.body);
+            for (const item of req.body) {
+                let result = { idClient: '', idEmploye: '', service: '', date: '', content: { message: 'Rendez-vous non envoyer', status: true } };
+                data = await RendezVousServices.creatRendezVous(item);
+                if (data) {
+                    result.content = { message: "Rendez-vous envoyer.", status: true };
+                    result.idClient = item.idClient;
+                    result.idEmploye = item.idEmploye;
+                    result.service = item.service;
+                    result.date = item.date;
                 }
-            } else {
-                result.message = 'Rendez-vous envoyer';
-                result.status = true;
-                data = await RendezVousServices.creatRendezVous(req.body);
+                arrayResult.push(result);
             }
-            res.status(200).json(result);
+            res.status(200).json(arrayResult);
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: 'Internal Server Error' });
