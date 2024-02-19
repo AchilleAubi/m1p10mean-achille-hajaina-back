@@ -36,7 +36,7 @@ app.use('/', routes);
 // Error middleware
 app.use(require('./middleware/errorMiddleware'));
 
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 1200;
 
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
