@@ -88,20 +88,20 @@ const rendezVousController = {
             let dateRendezVous = '';
             let checkHoraireTravail = '';
             for (const item of req.body) {
-                let result = { idClient: '', idEmploye: '', service: '', date: '', content: { message: '', status: false } };
+                let result = { idClient: item.idClient, idEmploye: item.idEmploye, service: item.service, date: item.date, content: { message: 'Employeur non disponible sur le date sélectionné', status: false } };
                 idEmploye = item.idEmploye;
                 dateRendezVous = item.date;
                 if (idEmploye != null) {
                     checkHoraireTravail = await HoraireTravailServices.checkIfHoraireTravail(idEmploye, dateRendezVous);
                     if (checkHoraireTravail) {
-                        result.content = { message: "Rendez-vous peut'etre envoyer.", status: true };
+                        result.content = { message: "Verification avec succèes", status: true };
                         result.idClient = item.idClient;
                         result.idEmploye = item.idEmploye;
                         result.service = item.service;
                         result.date = item.date;
                     }
                 } else {
-                    result.content = { message: "Rendez-vous peut'etre envoyer puis que l'emploi n'est pas selectionner", status: true };
+                    result.content = { message: "Verification succèes (sans employeur sélectionné)", status: true };
                     result.idClient = item.idClient;
                     result.idEmploye = item.idEmploye;
                     result.service = item.service;
