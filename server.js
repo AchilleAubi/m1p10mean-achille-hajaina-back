@@ -18,7 +18,7 @@ app.use(cors());
 const server = http.createServer(app);
 const io = require('socket.io')(server, {
   cors: {
-    origin: "http://localhost:4200",
+    origin: "https://m1p10mean-achille-hajaina-front.pages.dev",
     methods: ["GET", "POST", "PUT", "DELETE"]
   }
 });
