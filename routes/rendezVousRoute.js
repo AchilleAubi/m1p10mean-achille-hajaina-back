@@ -7,6 +7,7 @@ const router = express.Router();
 // Protected routes (require authentication)
 router.use(protect);
 
+router.post('/verifier', rendezVousController.verifierRendezVous);
 router.post('/priseRendezVous', rendezVousController.priseRendezVous);
 router.get('/list', rendezVousController.getAllRendezVous);
 router.get('/list/:idEmploye', rendezVousController.getRendezVousByEmploye);

@@ -76,7 +76,45 @@ const rendezVousController = {
             res.status(500);
             throw new error(error.message);
         }
-    })
+    }),
+
+    verifierRendezVous: asyncHandler(async (req, res) => {
+        try {
+            const token = req.headers.authorization.split(' ')[1];
+            invalidToken.push(token);
+            let arrayResult = [];
+            let idEmploye = '';
+            let idservice = '';
+            let dateRendezVous = '';
+            let checkHoraireTravail = '';
+            for (const item of req.body) {
+                let result = { idClient: '', idEmploye: '', service: '', date: '', content: { message: '', status: false } };
+                idEmploye = item.idEmploye;
+                dateRendezVous = item.date;
+                if (idEmploye != null) {
+                    checkHoraireTravail = await HoraireTravailServices.checkIfHoraireTravail(idEmploye, dateRendezVous);
+                    if (checkHoraireTravail) {
+                        result.content = { message: "Rendez-vous peut'etre envoyer.", status: true };
+                        result.idClient = item.idClient;
+                        result.idEmploye = item.idEmploye;
+                        result.service = item.service;
+                        result.date = item.date;
+                    }
+                } else {
+                    result.content = { message: "Rendez-vous peut'etre envoyer puis que l'emploi n'est pas selectionner", status: true };
+                    result.idClient = item.idClient;
+                    result.idEmploye = item.idEmploye;
+                    result.service = item.service;
+                    result.date
+                }
+                arrayResult.push(result);
+            }
+            res.status(200).json(arrayResult);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }),
 }
 
 module.exports = rendezVousController;
