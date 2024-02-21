@@ -8,9 +8,9 @@ const userSchema = mongoose.Schema(
       required: [true, 'Enter a username']
     },
     emplois: [{
-      nom: {
-        type: String,
-        required: [true, 'Enter a username']
+      Categorie: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Categorie'
       }
     }],
     pays: {
