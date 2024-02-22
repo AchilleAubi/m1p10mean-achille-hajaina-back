@@ -2,17 +2,6 @@ const Categorie = require('../models/categorie');
 const ServiceSalonServices = require('../services/serviceSalonServices');
 
 const categorieServices = {
-
-    async getAllCategorie() {
-        try {
-            const categories = await Categorie.find({});
-            return categories;
-        } catch (error) {
-            console.log(error);
-            throw new error(error.message);
-        }
-    },
-
     async getCategorie() {
         try {
             const formattedCategories = {
