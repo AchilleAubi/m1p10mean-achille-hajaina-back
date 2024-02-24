@@ -25,7 +25,7 @@ const rendezVousController = {
             let arrayResult = [];
             let data = '';
             for (const item of req.body) {
-                let result = { idClient: '', idEmploye: '', service: '', date: '', content: { message: 'Rendez-vous non envoyer', status: true } };
+                let result = { idClient: '', idEmploye: '', service: '', date: '', id: '', content: { message: 'Rendez-vous non envoyer', status: true } };
                 data = await RendezVousServices.creatRendezVous(item);
                 if (data) {
                     result.content = { message: "Rendez-vous envoyer.", status: true };
@@ -33,6 +33,7 @@ const rendezVousController = {
                     result.idEmploye = item.idEmploye;
                     result.service = item.service;
                     result.date = item.date;
+                    result.id = data._id
                 }
                 arrayResult.push(result);
             }
