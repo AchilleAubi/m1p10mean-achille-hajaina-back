@@ -8,6 +8,7 @@ const router = express.Router();
 // Protected routes (require authentication)
 router.use(protect);
 
+router.post('/solde/rest', PaimentController.getMontantRest);
 router.post('/payer', PaimentController.paiment);
 
 module.exports = router;
