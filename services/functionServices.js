@@ -20,11 +20,11 @@ const functionServices = {
         }
     },
 
-    async montantAvecOffreSpeciale(montant, pourcentage) {
+    async montantAvecOffreSpecialeAvecRestPayer(montant, pourcentage, restPayer) {
         try {
             let result = 0;
             let montantPourcentage = (montant * pourcentage) / 100;
-            result = montant - montantPourcentage;
+            result = montant - montantPourcentage - restPayer;
             return result;
         } catch (error) {
             console.log(error);
