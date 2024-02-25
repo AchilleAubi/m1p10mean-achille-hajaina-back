@@ -36,7 +36,14 @@ const rendezVousSchema = mongoose.Schema(
                 type: Date,
                 default: Date.now
             }
-        }]
+        }],
+        payer: {
+            type: Number
+        },
+        verified: {
+            type: Boolean,
+            default: false
+        }
     },
     {
         timestamps: true,

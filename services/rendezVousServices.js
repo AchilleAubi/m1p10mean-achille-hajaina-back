@@ -12,7 +12,9 @@ const rendezVousServices = {
                 token: data.token,
                 etat: [{
                     name: "Encour de traitement"
-                }]
+                }],
+                payer: data.payer,
+                verified: false,
             };
             const reponse = await RendezVous.create(rendezVous);
             return reponse;
@@ -35,6 +37,16 @@ const rendezVousServices = {
     async getById(idRendezVous) {
         try {
             const reponse = await RendezVous.findOne({ _id: idRendezVous }).populate('Service');
+            return reponse;
+        } catch (error) {
+            console.log(error);
+            throw new error(error.message);
+        }
+    },
+
+    async getByUser(user) {
+        try {
+            const reponse = await RendezVous.find({ User: user }).populate('Service').populate('User').populate('Employe');
             return reponse;
         } catch (error) {
             console.log(error);
