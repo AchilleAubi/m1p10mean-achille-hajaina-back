@@ -21,6 +21,16 @@ const employeServices = {
             throw new error(error.message);
         }
     },
+
+    async findlEmploye(idEmp) {
+        try {
+            const data = await User.findOne({ _id: idEmp });
+            return data;
+        } catch (error) {
+            console.log(error);
+            throw new error(error.message);
+        }
+    }
 }
 
 module.exports = employeServices;
