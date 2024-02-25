@@ -26,7 +26,11 @@ const horaireTravailServices = {
         try {
             let result = false;
             const dateRendezVousObj = moment(dateRendezVous, "YYYY-MM-DD HH:mm:ss").toDate();
-            const horaireTravail = await HoraireTravail.findOne({ Employe: idEmploye });
+            const horaireTravail = await HoraireTravail.findOne({
+                Employe: idEmploye,
+                dateTimeDebut: { $lte: dateRendezVousObj },
+                dateTimeFin: { $gte: dateRendezVousObj }
+            });
             let dateTimeDebut = '';
             let dateTimeFin = '';
             if (horaireTravail) {

@@ -11,15 +11,8 @@ const paimentController = {
             const token = req.headers.authorization.split(' ')[1];
             invalidToken.push(token);
             let arrayResult = [];
-            for (const item of req.body) {
-                let result = { idRendezVous: '', montant: null, status: false };
-                const data = await PaiementServices.montantPayer(item.idRendezVous);
-                result.idRendezVous = item.idRendezVous;
-                result.montant = data;
-                result.status = true;
-                arrayResult.push(result);
-            }
-            res.status(200).json(arrayResult);
+            const data = await PaiementServices.montantPayer(req.body);
+            res.status(200).json(data);
         } catch (error) {
             res.status(500);
             throw new error(error.message);
@@ -35,7 +28,7 @@ const paimentController = {
             let montantPayer = 0;
 
             for (const item of req.body) {
-                montantPayer = await PaiementServices.montantPayer(req.body.idRendezVous);
+                montantPayer = await PaiementServices.montantPayer([{ idRendezVous: req.body.idRendezVous }]);
                 data = PaiementServices.paiement(item.montant, item.idRendezVous);
             }
 
