@@ -10,7 +10,7 @@ router.use(protect);
 
 router.get('/list/user/:idEmploye', HoraireTravailController.getHoraireTravail);
 router.post('/creat', HoraireTravailController.creatHoraireTravail);
-
+router.get('/list/statHoraireEmploye', HoraireTravailController.finddAllHoraireTravail);
 
 module.exports = router;
 

@@ -13,6 +13,24 @@ const horaireTravailServices = {
         }
     },
 
+    async minutesToHeureMinute(minutes) {
+        const heures = Math.floor(minutes / 60);
+        const minutesRestantes = minutes % 60;
+        const chaineHeureMinute = `${heures}h ${minutesRestantes}min`;
+        return chaineHeureMinute;
+    },
+
+    async getAllHoraireTravail() {
+        try {
+            const horaireTravails = await HoraireTravail.find({});
+            return horaireTravails;
+        } catch (error) {
+            console.log(error);
+            throw new Error(error.message);
+        }
+    },
+
+
     async insertHoraireTravail(body) {
         try {
             const horaireTravails = await HoraireTravail.create(body);
