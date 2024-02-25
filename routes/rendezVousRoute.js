@@ -12,6 +12,7 @@ router.post('/priseRendezVous', rendezVousController.priseRendezVous);
 router.get('/list', rendezVousController.getAllRendezVous);
 router.get('/list/:idEmploye', rendezVousController.getRendezVousByEmploye);
 router.post('/valider', rendezVousController.validerRendezVous);
+router.post('/terminer', rendezVousController.terminerRendezVous);
 router.post('/refuser', rendezVousController.refuserRendezVous);
 router.get('/client/rdv/:User', rendezVousController.getRendezVousByUser);
 
