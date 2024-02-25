@@ -147,6 +147,25 @@ const rendezVousController = {
             res.status(500).json({ error: 'Internal Server Error' });
         }
     }),
+
+    terminerRendezVous: asyncHandler(async (req, res) => {
+        try {
+            const valider = { name: 'Terminer', color: 'primary' }
+            const token = req.headers.authorization.split(' ')[1];
+            invalidToken.push(token);
+            let idRendezVous = req.body.idRendezVous;
+            let result = { message: "Rendez non valider", status: false };
+            const updateEtat = await RendezVousServices.updateEtat(idRendezVous, valider.name, valider.color);
+            if (updateEtat) {
+                result.message = "Rendez valider";
+                result.status = true;
+            }
+            res.status(200).json(result);
+        } catch (error) {
+            res.status(500);
+            throw new error(error.message);
+        }
+    }),
 }
 
 module.exports = rendezVousController;
