@@ -76,7 +76,8 @@ const rendezVousServices = {
 
     async updateEmploye(idRendezVous, idEmploye) {
         try {
-            const reponse = await RendezVous.updateOne({ _id: idRendezVous }, { Employe: idEmploye });
+            const verified = true;
+            const reponse = await RendezVous.updateOne({ _id: idRendezVous }, { Employe: idEmploye }, { verified: verified });
             return reponse;
         } catch (error) {
             console.log(error);
