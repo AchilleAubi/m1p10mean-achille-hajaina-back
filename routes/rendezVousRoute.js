@@ -13,6 +13,7 @@ router.get('/list', rendezVousController.getAllRendezVous);
 router.get('/list/:idEmploye', rendezVousController.getRendezVousByEmploye);
 router.post('/valider', rendezVousController.validerRendezVous);
 router.post('/refuser', rendezVousController.refuserRendezVous);
+router.get('/client/rdv/:User', rendezVousController.getRendezVousByUser);
 
 module.exports = router;
 

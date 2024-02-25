@@ -1,6 +1,7 @@
 const RendezVousServices = require('../services/rendezVousServices');
 const HoraireTravailServices = require('../services/horaireTravailServices');
 const asyncHandler = require('express-async-handler');
+const PaiementServices = require('../services/paiementServices');
 
 let invalidToken = [];
 
@@ -25,7 +26,7 @@ const rendezVousController = {
             let arrayResult = [];
             let data = '';
             for (const item of req.body) {
-                let result = { idClient: '', idEmploye: '', service: '', date: '', content: { message: 'Rendez-vous non envoyer', status: true } };
+                let result = { idClient: '', idEmploye: '', service: '', date: '', id: '', payer: 0, verified: false, content: { message: 'Rendez-vous non envoyer', status: true } };
                 data = await RendezVousServices.creatRendezVous(item);
                 if (data) {
                     result.content = { message: "Rendez-vous envoyer.", status: true };
@@ -33,6 +34,9 @@ const rendezVousController = {
                     result.idEmploye = item.idEmploye;
                     result.service = item.service;
                     result.date = item.date;
+                    result.id = data._id;
+                    result.payer = item.payer;
+                    result.verified = false
                 }
                 arrayResult.push(result);
             }
@@ -48,6 +52,18 @@ const rendezVousController = {
             const token = req.headers.authorization.split(' ')[1];
             invalidToken.push(token);
             const data = await RendezVousServices.getAllRendezVous();
+            res.status(200).json(data);
+        } catch (error) {
+            res.status(500);
+            throw new error(error.message);
+        }
+    }),
+
+    getRendezVousByUser: asyncHandler(async (req, res) => {
+        try {
+            const token = req.headers.authorization.split(' ')[1];
+            invalidToken.push(token);
+            const data = await RendezVousServices.getByUser(req.params.User);
             res.status(200).json(data);
         } catch (error) {
             res.status(500);
@@ -101,7 +117,6 @@ const rendezVousController = {
         try {
             let arrayResult = [];
             let idEmploye = '';
-            let idservice = '';
             let dateRendezVous = '';
             let checkHoraireTravail = '';
             for (const item of req.body) {
