@@ -174,6 +174,7 @@ const rendezVousController = {
             const idEmploye = req.params.idEmploye;
             let arrResult = [];
             arrResult = await RendezVousServices.getRendezVousValiderByEmploye(idEmploye);
+            console.log('Non Effectuer', idEmploye, arrResult.length);
             res.status(200).json(arrResult);
         } catch (error) {
             res.status(500);
