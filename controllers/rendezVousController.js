@@ -188,6 +188,17 @@ const rendezVousController = {
         }
     }),
 
+    cancelRendezVous: asyncHandler(async (req, res) => {
+        try {
+            const updateEtat = await RendezVousServices.onCancelRendezVous(req.body.idRendezVous);
+            res.status(200).json(updateEtat);
+        }
+        catch (error) {
+            res.status(500);
+            throw new error(error.message);
+        }
+    }),
+
     getRendezVousEffecteuer: asyncHandler(async (req, res) => {
         try {
             const token = req.headers.authorization.split(' ')[1];
