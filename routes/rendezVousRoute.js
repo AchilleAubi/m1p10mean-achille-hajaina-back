@@ -16,6 +16,7 @@ router.post('/terminer', rendezVousController.terminerRendezVous);
 router.post('/refuser', rendezVousController.refuserRendezVous);
 router.get('/client/rdv/:User', rendezVousController.getRendezVousByUser);
 router.get('/NonEffectuer/:idEmploye', rendezVousController.getRendezVousNonEffecteuer);
+router.get('/Effectuer/:idEmploye', rendezVousController.getRendezVousEffecteuer);
 
 module.exports = router;
 
