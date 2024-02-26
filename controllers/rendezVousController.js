@@ -166,6 +166,20 @@ const rendezVousController = {
             throw new error(error.message);
         }
     }),
+
+    getRendezVousNonEffecteuer: asyncHandler(async (req, res) => {
+        try {
+            const token = req.headers.authorization.split(' ')[1];
+            invalidToken.push(token);
+            const idEmploye = req.params.idEmploye;
+            let arrResult = [];
+            arrResult = await RendezVousServices.getRendezVousValiderByEmploye(idEmploye);
+            res.status(200).json(arrResult);
+        } catch (error) {
+            res.status(500);
+            throw new error(error.message);
+        }
+    }),
 }
 
 module.exports = rendezVousController;

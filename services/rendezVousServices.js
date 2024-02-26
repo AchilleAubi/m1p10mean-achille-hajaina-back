@@ -83,7 +83,17 @@ const rendezVousServices = {
             console.log(error);
             throw new error(error.message);
         }
-    }
+    },
+
+    async getRendezVousValiderByEmploye(idEmploye) {
+        try {
+            const reponse = await RendezVous.find({ Employe: idEmploye, 'etat.name': 'Valider', 'etat': { $size: 2 } }).populate('Service');
+            return reponse;
+        } catch (error) {
+            console.log(error);
+            throw new error(error.message);
+        }
+    },
 }
 
 module.exports = rendezVousServices;
