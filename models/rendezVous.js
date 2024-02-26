@@ -43,6 +43,10 @@ const rendezVousSchema = mongoose.Schema(
         verified: {
             type: Boolean,
             default: false
+        },
+        cancel: {
+            type: Boolean,
+            default: false
         }
     },
     {

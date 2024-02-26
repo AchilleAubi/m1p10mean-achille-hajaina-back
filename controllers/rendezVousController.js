@@ -26,7 +26,7 @@ const rendezVousController = {
             let arrayResult = [];
             let data = '';
             for (const item of req.body) {
-                let result = { idClient: '', idEmploye: '', service: '', date: '', id: '', payer: 0, verified: false, content: { message: 'Rendez-vous non envoyer', status: true } };
+                let result = { idClient: '', idEmploye: '', service: '', date: '', id: '', payer: 0, verified: false, cancel: false, content: { message: 'Rendez-vous non envoyer', status: true } };
                 data = await RendezVousServices.creatRendezVous(item);
                 if (data) {
                     result.content = { message: "Rendez-vous envoyer.", status: true };
@@ -36,7 +36,8 @@ const rendezVousController = {
                     result.date = item.date;
                     result.id = data._id;
                     result.payer = item.payer;
-                    result.verified = false
+                    result.verified = false;
+                    result.cancel = false;
                 }
                 arrayResult.push(result);
             }
@@ -182,6 +183,17 @@ const rendezVousController = {
             console.log('Non Effectuer', idEmploye, arrResult.length);
             res.status(200).json(arrResult);
         } catch (error) {
+            res.status(500);
+            throw new error(error.message);
+        }
+    }),
+
+    cancelRendezVous: asyncHandler(async (req, res) => {
+        try {
+            const updateEtat = await RendezVousServices.onCancelRendezVous(req.body.idRendezVous);
+            res.status(200).json(updateEtat);
+        }
+        catch (error) {
             res.status(500);
             throw new error(error.message);
         }
