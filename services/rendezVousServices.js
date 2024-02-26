@@ -15,6 +15,7 @@ const rendezVousServices = {
                 }],
                 payer: data.payer,
                 verified: false,
+                cancel: false,
             };
             const reponse = await RendezVous.create(rendezVous);
             return reponse;
@@ -36,7 +37,7 @@ const rendezVousServices = {
 
     async getById(idRendezVous) {
         try {
-            const reponse = await RendezVous.findOne({ _id: idRendezVous }).populate('Service');
+            const reponse = await RendezVous.findOne({ _id: idRendezVous }, { cancel: false }).populate('Service');
             return reponse;
         } catch (error) {
             console.log(error);
@@ -56,7 +57,7 @@ const rendezVousServices = {
 
     async getRendezVousNonValiderByEmploye(idEmploye) {
         try {
-            const reponse = await RendezVous.find({ Employe: { $in: [idEmploye, null] }, 'etat.1': { $exists: false } }).populate('Service');
+            const reponse = await RendezVous.find({ Employe: { $in: [idEmploye, null] }, 'etat.1': { $exists: false }, cancel: false }).populate('Service');
             return reponse;
         } catch (error) {
             console.log(error);
@@ -88,6 +89,17 @@ const rendezVousServices = {
     async getRendezVousValiderByEmploye(idEmploye) {
         try {
             const reponse = await RendezVous.find({ Employe: idEmploye, 'etat.name': 'Valider', 'etat': { $size: 2 } }).populate('Service');
+            return reponse;
+        } catch (error) {
+            console.log(error);
+            throw new error(error.message);
+        }
+    },
+
+    async onCancelRendezVous(idRendezVous) {
+        try {
+            const cancel = true;
+            const reponse = await RendezVous.updateOne({ _id: idRendezVous }, { cancel: cancel });
             return reponse;
         } catch (error) {
             console.log(error);
