@@ -105,7 +105,17 @@ const rendezVousServices = {
             console.log(error);
             throw new error(error.message);
         }
-    }
+    },
+
+    async getRendezVousTermineByEmploye(idEmploye) {
+        try {
+            const reponse = await RendezVous.find({ Employe: idEmploye, 'etat.name': 'Terminer', 'etat': { $size: 3 } }).populate('Service');
+            return reponse;
+        } catch (error) {
+            console.log(error);
+            throw new error(error.message);
+        }
+    },
 }
 
 module.exports = rendezVousServices;
