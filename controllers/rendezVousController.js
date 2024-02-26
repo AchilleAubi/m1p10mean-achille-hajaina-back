@@ -153,14 +153,19 @@ const rendezVousController = {
             const valider = { name: 'Terminer', color: 'primary' }
             const token = req.headers.authorization.split(' ')[1];
             invalidToken.push(token);
-            let idRendezVous = req.body.idRendezVous;
-            let result = { message: "Rendez non valider", status: false };
-            const updateEtat = await RendezVousServices.updateEtat(idRendezVous, valider.name, valider.color);
-            if (updateEtat) {
-                result.message = "Rendez valider";
-                result.status = true;
+            let updateEtat = '';
+            let arrResult = [];
+            for (const item of req.body) {
+                let result = { message: "Rendez non valider", status: false };
+                updateEtat = await RendezVousServices.updateEtat(item.idRendezVous, valider.name, valider.color);
+                if (updateEtat) {
+                    result.idRendezVous = item.idRendezVous;
+                    result.message = "Rendez valider";
+                    result.status = true;
+                }
+                arrResult.push(result);
             }
-            res.status(200).json(result);
+            res.status(200).json(arrResult);
         } catch (error) {
             res.status(500);
             throw new error(error.message);
@@ -180,7 +185,7 @@ const rendezVousController = {
             res.status(500);
             throw new error(error.message);
         }
-    }),
+    })
 }
 
 module.exports = rendezVousController;
