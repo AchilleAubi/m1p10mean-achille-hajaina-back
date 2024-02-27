@@ -44,38 +44,56 @@ const portFeuilleController = {
         try {
             const token = req.headers.authorization.split(' ')[1];
             invalidToken.push(token);
-            const result = { totalServiceEffectuer: 0, commission: 0, totalPourcentage: 0, status: true };
-            console.log('body', req.body);
-            const dateNow = moment(req.body.dateNow, "YYYY-MM-DD").toDate();
-            const idEmploye = req.body.idEmploye;
+            const idEmploye = req.params.idEmploye;
+            console.log('idEmploye', idEmploye);
             const rendeVous = await RendezVousServices.getRendezVousTermineByEmploye(idEmploye);
-            let totalPourcentage = 0;
-            let date = '';
-            let conte = 0;
-            let montant = 0;
-            for (let item of rendeVous) {
-                for (let etat of item.etat) {
+
+            let totatMontant = 0;
+            let dateKey = '';
+            const commision = 5;
+
+            const groupedData = rendeVous.reduce((acc, current) => {
+                let date = '';
+                for (let etat of current.etat) {
                     if (etat.name == 'Terminer') {
                         date = moment(etat.date, "YYYY-MM-DD").toDate();
+                        dateKey = date.toISOString().split('T')[0];
+                        console.log('dateKey', dateKey, current.Service.prix);
                     }
                 }
-                if (dateNow <= date) {
-                    conte = conte + 1;
-                    montant = montant + item.Service.prix;
-                    totalPourcentage = totalPourcentage + item.Service.commision;
+
+                if (date) {
+                    if (!acc[dateKey]) {
+                        acc[dateKey] = {
+                            date: dateKey,
+                            totalServiceEffectuer: 0,
+                            totalMontantCommission: 0,
+                            totalMontantCommissionPourcentage: commision,
+                            status: false
+                        };
+                    }
+
+                    let montantCommission = (current.Service.prix * commision) / 100;
+
+                    acc[dateKey].totalServiceEffectuer += current.Service.prix;
+                    acc[dateKey].totalMontantCommission += montantCommission;
+                    acc[dateKey].status = true;
+                } else {
+                    console.log('Terminer state not found');
                 }
-            }
-            // totalPourcentage = conte * 5;
-            result.totalServiceEffectuer = conte;
-            result.commission = montant;
-            result.totalPourcentage = totalPourcentage;
-            result.status = true;
-            res.status(200).json(result);
+                return acc;
+            }, {});
+
+            // Convertir l'objet en tableau pour avoir un format de réponse similaire à ce que vous attendez
+            const resultArray = Object.values(groupedData);
+
+            console.log('resultArray', resultArray);
+            res.status(200).json(resultArray);
         } catch (error) {
-            res.status(500);
-            throw new error(error.message);
+            res.status(500).json({ error: error.message });
         }
     })
+
 
 }
 
