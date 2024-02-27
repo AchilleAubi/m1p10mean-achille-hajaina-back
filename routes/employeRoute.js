@@ -10,6 +10,8 @@ router.get('/list/categori', employeController.getEmployeByIdCategori);
 // Protected routes (require authentication)
 router.use(protect);
 
+router.get('/commission', employeController.commissionJouree);
+
 
 module.exports = router;
 
