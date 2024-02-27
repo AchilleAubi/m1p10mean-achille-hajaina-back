@@ -34,6 +34,43 @@ const portFeuilleController = {
             res.status(500);
             throw new error(error.message);
         }
+    }),
+
+    commissionJouree: asyncHandler(async (req, res) => {
+        try {
+            const token = req.headers.authorization.split(' ')[1];
+            invalidToken.push(token);
+            const result = { totalServiceEffectuer: 0, commission: 0, totalPourcentage: 0, status: true };
+            console.log('body', req.body);
+            const dateNow = moment(req.body.dateNow, "YYYY-MM-DD").toDate();
+            const idEmploye = req.body.idEmploye;
+            const rendeVous = await RendezVousServices.getRendezVousTermineByEmploye(idEmploye);
+            let totalPourcentage = 0;
+            let date = '';
+            let conte = 0;
+            let montant = 0;
+            for (let item of rendeVous) {
+                for (let etat of item.etat) {
+                    if (etat.name == 'Terminer') {
+                        date = moment(etat.date, "YYYY-MM-DD").toDate();
+                    }
+                }
+                if (dateNow <= date) {
+                    conte = conte + 1;
+                    montant = montant + item.Service.prix;
+                    totalPourcentage = totalPourcentage + item.Service.commision;
+                }
+            }
+            // totalPourcentage = conte * 5;
+            result.totalServiceEffectuer = conte;
+            result.commission = montant;
+            result.totalPourcentage = totalPourcentage;
+            result.status = true;
+            res.status(200).json(result);
+        } catch (error) {
+            res.status(500);
+            throw new error(error.message);
+        }
     })
 
 }
