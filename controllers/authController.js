@@ -10,8 +10,15 @@ const authController = {
   login: asyncHandler(async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
-
-    if (user && (await user.matchPassword(password))) {
+    let verife = true;
+    if (user && user.role == 'Emploie') {
+      if (user.active) {
+        verife = true;
+      } else {
+        verife = false;
+      }
+    }
+    if (user && (await user.matchPassword(password)) && verife) {
       const token = generateToken(user._id, user.role);
       res.json({ _id: user._id, username: user.username, role: user.role, token, email: user.email, pays: user.pays, adresse: user.adresse, emplois: user.emplois, salaire: user.salaire, image: user.image });
     } else {

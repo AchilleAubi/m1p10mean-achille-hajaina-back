@@ -96,8 +96,10 @@ const portFeuilleController = {
 
     debaucher: asyncHandler(async (req, res) => {
         try {
-            const user = await EmployeServices.debaucher(req.params.idEmploye);
-            res.status(200).json(user);
+            for (let item of req.body) {
+                const user = await EmployeServices.debaucher(item.idEmploye);
+            }
+            res.status(200).json(true);
         } catch (error) {
             res.status(500);
             console.log(error);
