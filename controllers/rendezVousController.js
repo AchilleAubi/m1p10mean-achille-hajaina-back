@@ -212,6 +212,29 @@ const rendezVousController = {
             res.status(500);
             throw new error(error.message);
         }
+    }),
+
+    getStatRendezVousJournalier: asyncHandler(async (req, res) => {
+        try {
+            const token = req.headers.authorization.split(' ')[1];
+            invalidToken.push(token);
+            const data = await RendezVousServices.getAllRendezVousJournalier();
+            res.status(200).json(data);
+        } catch (error) {
+            res.status(500);
+            throw new error(error.message);
+        }
+    }),
+    getStatRendezVousMensuel: asyncHandler(async (req, res) => {
+        try {
+            const token = req.headers.authorization.split(' ')[1];
+            invalidToken.push(token);
+            const data = await RendezVousServices.getAllRendezVousMensuel();
+            res.status(200).json(data);
+        } catch (error) {
+            res.status(500);
+            throw new error(error.message);
+        }
     })
 }
 

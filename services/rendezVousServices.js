@@ -1,4 +1,5 @@
 const RendezVous = require('../models/rendezVous');
+const asyncHandler = require('express-async-handler');
 
 const rendezVousServices = {
 
@@ -116,6 +117,126 @@ const rendezVousServices = {
             throw new error(error.message);
         }
     },
+
+    async getAllRendezVousJournalier() {
+        try {
+            const response = await RendezVous.aggregate([
+                {
+                    $group: {
+                        _id: { $dateToString: { format: "%Y-%m-%d", date: "$dateTime" } },
+                        count: { $sum: 1 }
+                    }
+                },
+                {
+                    $project: {
+                        _id: 0,
+                        dateTime: "$_id",
+                        count: 1
+                    }
+                },
+                {
+                    $sort: { "dateTime": 1 }
+                }
+            ]);
+            return response;
+        } catch (error) {
+            console.log(error);
+            throw new Error(error.message);
+        }
+    }
+    ,
+
+    async getAllRendezVousMensuel() {
+        const tabMonth = ["Janvier", 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre']
+        try {
+            const response = await RendezVous.aggregate([
+                {
+                    $project: {
+                        year: { $year: "$dateTime" },
+                        month: { $month: "$dateTime" }
+                    }
+                },
+                {
+                    $group: {
+                        _id: { year: "$year", month: "$month" },
+                        count: { $sum: 1 }
+                    }
+                },
+                {
+                    $project: {
+                        _id: 0,
+                        year: "$_id.year",
+                        month: "$_id.month",
+                        count: 1
+                    }
+                },
+                {
+                    $sort: { "year": 1, "month": 1 }
+                }
+            ]);
+            return response;
+        } catch (error) {
+            console.log(error);
+            throw new Error(error.message);
+        }
+    },
+
+    async getStatTempsMoyen() {
+        try {
+            const response = await RendezVous.aggregate([
+                {
+                    $match: {
+                        Employe: { $ne: null },
+                        $expr: { $eq: [{ $size: "$etat" }, 3] }
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "users",
+                        localField: "Employe",
+                        foreignField: "_id",
+                        as: "employeeData"
+                    }
+                },
+                {
+                    $unwind: "$employeeData"
+                },
+                {
+                    $lookup: {
+                        from: "services",
+                        localField: "Service",
+                        foreignField: "_id",
+                        as: "serviceData"
+                    }
+                },
+                {
+                    $unwind: "$serviceData"
+                },
+                {
+                    $group: {
+                        _id: "$employeeData.username",
+                        id: { $first: "$employeeData._id" },
+                        totalDuree: { $sum: "$serviceData.dure" },
+                        totalAmount: { $sum: 1 }
+                    }
+                },
+                {
+                    $project: {
+                        _id: 0,
+                        id: 1,
+                        username: "$_id",
+                        totalDuree: 1,
+                        totalAmount: 1
+                    }
+                }
+            ]);
+            return response;
+        } catch (error) {
+            console.log(error);
+            throw new Error(error.message);
+        }
+    }
+
 }
 
 module.exports = rendezVousServices;
