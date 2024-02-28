@@ -69,6 +69,7 @@ const authController = {
 
   createAdmin: asyncHandler(async (req, res) => {
     try {
+      console.log('req.body', req.body);
       const { pays, adresse, phone, username, email, password, role, emplois, salaire, image } = req.body;
       const hashedPassword = await bcrypt.hash(password, 10);
       const data = {
@@ -83,10 +84,10 @@ const authController = {
         salaire: salaire,
         image: image
       };
+      console.log('data', data);
       const message = 'Cher ' + data.username + ',\n\n Nous espérons que ce message vous trouve bien. Nous sommes ravis de vous informer que votre compte a été créé avec succès sur Charme & Eclat beauté. Nous vous souhaitons la bienvenue dans notre communauté et espérons que vous tirerez le meilleur parti de nos services. \n\nVoici vos informations de connexion :\n\nNom d utilisateur : ' + data.username + '\nMot de passe : ' + req.body.password + '\n\nNous vous recommandons vivement de changer votre mot de passe dès votre première connexion pour des raisons de sécurité. Vous pouvez le faire en suivant les instructions fournies lors de la connexion initiale.\n\nN hésitez pas à explorer toutes les fonctionnalités de notre plateforme et à nous contacter si vous avez des questions ou des préoccupations. Nous sommes là pour vous aider.\n\nMerci de faire partie de Charme & Eclat beauté. ! Nous sommes impatients de vous offrir une expérience exceptionnelle.\n\n\nCordialement,';
-      const mail = await EmailServices.sendEmail(data.email, 'Confirmation de création de compte de Charme & Eclat beauté', message);
+      const mail = EmailServices.sendEmail(data.email, 'Confirmation de création de compte de Charme & Eclat beauté', message);
       const user = await User.create(data);
-      // const user = await User.create(data);
       res.status(200).json(mail);
     } catch (error) {
       res.status(500);
