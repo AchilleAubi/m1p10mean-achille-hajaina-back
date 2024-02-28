@@ -4,7 +4,7 @@ const ServiceSalonServices = require('./serviceSalonServices');
 const employeServices = {
     async getAlllEmploye() {
         try {
-            const data = await User.find({ role: 'Emploie' });
+            const data = await User.find({ role: 'Emploie' }).populate('emplois.Categorie');
             return data;
         } catch (error) {
             console.log(error);
