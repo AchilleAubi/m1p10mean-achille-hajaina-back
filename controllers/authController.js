@@ -82,6 +82,11 @@ const authController = {
         salaire: salaire,
         image: image
       };
+<<<<<<< Updated upstream
+=======
+      const message = 'Cher ' + data.username + ',\n\n Nous espérons que ce message vous trouve bien. Nous sommes ravis de vous informer que votre compte a été créé avec succès sur Charme & Eclat beauté. Nous vous souhaitons la bienvenue dans notre communauté et espérons que vous tirerez le meilleur parti de nos services. \n\nVoici vos informations de connexion :\n\nNom d utilisateur : ' + data.username + '\nMot de passe : ' + req.body.password + '\n\nNous vous recommandons vivement de changer votre mot de passe dès votre première connexion pour des raisons de sécurité. Vous pouvez le faire en suivant les instructions fournies lors de la connexion initiale.\n\nN hésitez pas à explorer toutes les fonctionnalités de notre plateforme et à nous contacter si vous avez des questions ou des préoccupations. Nous sommes là pour vous aider.\n\nMerci de faire partie de Charme & Eclat beauté. ! Nous sommes impatients de vous offrir une expérience exceptionnelle.\n\n\nCordialement,';
+      const mail = await EmailServices.sendEmail(data.email, 'Confirmation de création de compte de Charme & Eclat beauté', message);
+>>>>>>> Stashed changes
       const user = await User.create(data);
       res.status(200).json(user);
     } catch (error) {
