@@ -11,6 +11,7 @@ router.get('/list/categori', employeController.getEmployeByIdCategori);
 router.use(protect);
 
 router.get('/commission/:idEmploye', employeController.commissionJouree);
+router.post('/debaucher/:idEmploye', employeController.debaucher);
 
 
 module.exports = router;

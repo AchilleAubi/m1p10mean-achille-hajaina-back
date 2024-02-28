@@ -92,8 +92,18 @@ const portFeuilleController = {
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
-    })
+    }),
 
+    debaucher: asyncHandler(async (req, res) => {
+        try {
+            const user = await EmployeServices.debaucher(req.params.idEmploye);
+            res.status(200).json(user);
+        } catch (error) {
+            res.status(500);
+            console.log(error);
+            throw new error(error.message);
+        }
+    }),
 
 }
 

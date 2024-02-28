@@ -4,7 +4,7 @@ const ServiceSalonServices = require('./serviceSalonServices');
 const employeServices = {
     async getAlllEmploye() {
         try {
-            const data = await User.find({ role: 'Emploie' }).populate('emplois.Categorie');
+            const data = await User.find({ role: 'Emploie', active: true }).populate('emplois.Categorie');
             return data;
         } catch (error) {
             console.log(error);
@@ -25,6 +25,16 @@ const employeServices = {
     async findlEmploye(idEmp) {
         try {
             const data = await User.findOne({ _id: idEmp });
+            return data;
+        } catch (error) {
+            console.log(error);
+            throw new error(error.message);
+        }
+    },
+
+    async debaucher(idEmp) {
+        try {
+            const data = await User.updateOne({ _id: idEmp }, { active: false });
             return data;
         } catch (error) {
             console.log(error);
