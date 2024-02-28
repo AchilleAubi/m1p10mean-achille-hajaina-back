@@ -14,6 +14,16 @@ const paiementServices = {
         }
     },
 
+    async paiementAutreDepense(montant, libelle) {
+        try {
+            const data = JournaleCaisseServices.payerDepense(montant, libelle)
+            return data;
+        } catch (error) {
+            console.log(error);
+            throw new error(error.message);
+        }
+    },
+
     async montantPayer(rendezVous) {
         try {
             let results = [];

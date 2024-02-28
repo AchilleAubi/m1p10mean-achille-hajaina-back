@@ -17,6 +17,21 @@ const journaleCaisseServices = {
         }
     },
 
+    async payerDepense(montant, libelle) {
+        try {
+            const donnee = {
+                sortiMontant: montant,
+                entrerMontant: 0,
+                libelle: libelle
+            };
+            const data = await JournaleCaisse.create(donnee);
+            return data;
+        } catch (error) {
+            console.log(error);
+            throw new error(error.message);
+        }
+    },
+
     async debiter(montant, idRendezVous, libelle) {
         try {
             const donnee = {

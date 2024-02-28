@@ -39,7 +39,27 @@ const paimentController = {
             res.status(500);
             throw new error(error.message);
         }
-    })
+    }),
+
+    payerAutredepense: asyncHandler(async (req, res) => {
+        try {
+            const token = req.headers.authorization.split(' ')[1];
+            invalidToken.push(token);
+            let result = { content: "Paiement success", status: true };
+            let data;
+
+            for (const item of req.body) {
+                data = PaiementServices.paiementAutreDepense(item.montant, item.libelle);
+            }
+
+            result.content = "Paiement success";
+            result.status = true;
+            res.status(200).json(result);
+        } catch (error) {
+            res.status(500);
+            throw new error(error.message);
+        }
+    }),
 }
 
 module.exports = paimentController;

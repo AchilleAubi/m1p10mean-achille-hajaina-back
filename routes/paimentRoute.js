@@ -10,6 +10,7 @@ router.use(protect);
 
 router.post('/solde/rest', PaimentController.getMontantRest);
 router.post('/payer', PaimentController.paiment);
+router.post('/depense', PaimentController.payerAutredepense);
 
 module.exports = router;
 
