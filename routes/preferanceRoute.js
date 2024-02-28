@@ -4,14 +4,10 @@ const { protect } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-
-// Protected routes (require authentication)
-router.use(protect);
-
-router.get('/employe/:idUser', PreferanceController.getPreferanceByIdEmploye);
-router.get('/service/:idUser', PreferanceController.getPreferanceByIdServices);
-router.post('/create/employe', PreferanceController.creatPreferanceByEmploye);
-router.post('/create/service', PreferanceController.creatPreferanceByServices);
+router.post('/create', PreferanceController.creatPreferance);
+router.post('/update', PreferanceController.updatePreferance);
+router.post('/delete', PreferanceController.deletePreferance);
+router.get('/liste/:Client', PreferanceController.getPreferance);
 
 module.exports = router;
 

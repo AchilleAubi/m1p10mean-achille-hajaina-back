@@ -1,10 +1,16 @@
 const Preferance = require('../models/preferance');
+const ServiceModel = require('../models/serviceModel');
 
 const preferanceServices = {
 
-    async getPreferanceByIdEmploye(idClient) {
+    async getPreferance(idClient) {
         try {
-            const data = await Preferance.find({ Client: idClient, Service: null });
+            let data = await Preferance.find({ Client: idClient }).populate('Client').populate('Service').populate('Employe').populate({
+                path: 'Service',
+                populate: {
+                    path: 'id_Categorie'
+                }
+            });
             return data;
         } catch (error) {
             console.log(error);
@@ -12,22 +18,21 @@ const preferanceServices = {
         }
     },
 
-    async getPreferanceByIdServices(idClient) {
+    async getServiceByID(id) {
         try {
-            const data = await Preferance.find({ Client: idClient, Employe: null });
-            return data;
+            const service = await ServiceModel.findById(id);
+            return service;
         } catch (error) {
-            console.log(error);
             throw new error(error.message);
         }
     },
 
-    async creatPreferanceByServices(body) {
+    async creatPreferance(body) {
         try {
-            const existingPreferance = await Preferance.find({ Client: body.Client, Service: body.Service });
-            const result = existingPreferance;
+            let existingPreferance = await Preferance.findOne({ Client: body.Client, Employe: body.Employe, Service: body.Service });
+            let result = existingPreferance;
             if (!existingPreferance) {
-                const data = await Preferance.create(body);
+                let data = await Preferance.create(body);
                 result = data;
             }
             return result;
@@ -37,20 +42,31 @@ const preferanceServices = {
         }
     },
 
-    async creatPreferanceByEmploye(body) {
+    async updatePreference(body) {
         try {
-            const existingPreferance = await Preferance.find({ Client: body.Client, Employe: body.Employe });
-            const result = existingPreferance;
-            if (!existingPreferance) {
-                const data = await Preferance.create(body);
-                result = data;
+            let existingPreference = await Preferance.findOne({ _id: body.id });
+            if (existingPreference) {
+                existingPreference.Service = body.Service;
+                existingPreference.Employe = body.Employe;
+                const response = await existingPreference.save();
+                return response;
             }
-            return result;
         } catch (error) {
             console.log(error);
-            throw new error(error.message);
+            throw new Error(error.message);
+        }
+    },
+
+    async deletePreference(id) {
+        try {
+            const response = await Preferance.deleteOne({ _id: id });
+            return response;
+        } catch (error) {
+            console.log(error);
+            throw new Error(error.message);
         }
     }
+
 }
 
 module.exports = preferanceServices;

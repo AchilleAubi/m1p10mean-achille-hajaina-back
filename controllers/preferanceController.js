@@ -1,16 +1,11 @@
 const PreferanceServices = require('../services/preferanceServices');
 const asyncHandler = require('express-async-handler');
 
-let invalidToken = [];
-
 const preferanceController = {
 
-    getPreferanceByIdEmploye: asyncHandler(async (req, res) => {
+    getPreferance: asyncHandler(async (req, res) => {
         try {
-            const token = req.headers.authorization.split(' ')[1];
-            invalidToken.push(token);
-            const idUser = req.params.idUser;
-            const data = await PreferanceServices.getPreferanceByIdEmploye(idUser);
+            const data = await PreferanceServices.getPreferance(req.params.Client);
             res.status(200).json(data);
         } catch (error) {
             res.status(500);
@@ -18,12 +13,9 @@ const preferanceController = {
         }
     }),
 
-    getPreferanceByIdServices: asyncHandler(async (req, res) => {
+    creatPreferance: asyncHandler(async (req, res) => {
         try {
-            const token = req.headers.authorization.split(' ')[1];
-            invalidToken.push(token);
-            const idUser = req.params.idUser;
-            const data = await PreferanceServices.getPreferanceByIdServices(idUser);
+            const data = await PreferanceServices.creatPreferance(req.body);
             res.status(200).json(data);
         } catch (error) {
             res.status(500);
@@ -31,11 +23,9 @@ const preferanceController = {
         }
     }),
 
-    creatPreferanceByEmploye: asyncHandler(async (req, res) => {
+    updatePreferance: asyncHandler(async (req, res) => {
         try {
-            const token = req.headers.authorization.split(' ')[1];
-            invalidToken.push(token);
-            const data = await PreferanceServices.creatPreferanceByEmploye(req.body);
+            const data = await PreferanceServices.updatePreference(req.body);
             res.status(200).json(data);
         } catch (error) {
             res.status(500);
@@ -43,12 +33,10 @@ const preferanceController = {
         }
     }),
 
-    creatPreferanceByServices: asyncHandler(async (req, res) => {
+    deletePreferance: asyncHandler(async (req, res) => {
         try {
-            const token = req.headers.authorization.split(' ')[1];
-            invalidToken.push(token);
-            const data = await PreferanceServices.creatPreferanceByServices(req.body);
-            res.status(200).json(data);
+            const data = await PreferanceServices.deletePreference(req.body.id);
+            res.status(200).json("Preference deleted");
         } catch (error) {
             res.status(500);
             throw new error(error.message);
