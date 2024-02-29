@@ -15,13 +15,14 @@ const offreSpecialeServices = {
 
     async getOffreSpeciale() {
         try {
-            const data = await OffreSpeciale.find({});
+            const data = await OffreSpeciale.find({}).populate('Service');
             return data;
         } catch (error) {
             console.log(error);
-            throw new error(error.message);
+            throw new Error(error.message);
         }
     },
+
 
     async getOffreSpecialeByIdService(idServce) {
         try {
@@ -32,6 +33,16 @@ const offreSpecialeServices = {
             throw new error(error.message);
         }
     },
+    async updateOffre(idOffre) {
+        try {
+            const offreMiseAJour = await OffreSpeciale.updateOne(idOffre, { vue: false }, { new: true });
+            return offreMiseAJour;
+        } catch (error) {
+            console.error(error);
+            throw new Error(error.message);
+        }
+    },
+
 
     async getPourCentageOffreSpeciale(idServce, dateTime) {
         try {
