@@ -6,7 +6,7 @@ const { protect } = require('../middleware/authMiddleware');
 const router = express.Router();
 router.post('/verifier', rendezVousController.verifierRendezVous);
 router.post('/cancel', rendezVousController.cancelRendezVous);
-
+router.get('/rdv/:user', rendezVousController.getRdvValiderByUser)
 // Protected routes (require authentication)
 router.use(protect);
 

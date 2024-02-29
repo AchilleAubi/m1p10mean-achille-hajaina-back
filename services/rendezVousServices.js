@@ -1,5 +1,7 @@
 const RendezVous = require('../models/rendezVous');
 const asyncHandler = require('express-async-handler');
+const mongoose = require('mongoose');
+const moment = require('moment');
 
 const rendezVousServices = {
 
@@ -47,6 +49,16 @@ const rendezVousServices = {
     },
 
     async getByUser(user) {
+        try {
+            const reponse = await RendezVous.find({ User: user }).populate('Service').populate('User').populate('Employe');
+            return reponse;
+        } catch (error) {
+            console.log(error);
+            throw new error(error.message);
+        }
+    },
+
+    async getRdvByUser(user, date) {
         try {
             const reponse = await RendezVous.find({ User: user }).populate('Service').populate('User').populate('Employe');
             return reponse;
@@ -182,6 +194,55 @@ const rendezVousServices = {
                 },
                 {
                     $sort: { "year": 1, "month": 1 }
+                }
+            ]);
+            return response;
+        } catch (error) {
+            console.log(error);
+            throw new Error(error.message);
+        }
+    },
+
+    async getRdvValiderByUser(user) {
+        console.log(user, 'user');
+        const userId = new mongoose.Types.ObjectId(user);
+        try {
+            const response = await RendezVous.aggregate([
+                {
+                    $match: {
+                        $expr: {
+                            $and: [
+                                { $eq: [{ $size: "$etat" }, 2] },
+                                { $eq: [{ $arrayElemAt: ["$etat.name", 1] }, "Valider"] }
+
+                            ]
+                        },
+                        User: userId
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'users',
+                        localField: 'User',
+                        foreignField: '_id',
+                        as: 'User'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'users',
+                        localField: 'Employe',
+                        foreignField: '_id',
+                        as: 'Employe'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'services',
+                        localField: 'Service',
+                        foreignField: '_id',
+                        as: 'Service'
+                    }
                 }
             ]);
             return response;
