@@ -1,7 +1,7 @@
 const RendezVousServices = require('../services/rendezVousServices');
 const HoraireTravailServices = require('../services/horaireTravailServices');
 const asyncHandler = require('express-async-handler');
-const PaiementServices = require('../services/paiementServices');
+const PorteFeuilleServices = require('../services/porteFeuilleServices');
 
 let invalidToken = [];
 
@@ -101,13 +101,35 @@ const rendezVousController = {
             let idRendezVous = req.body.idRendezVous;
             let idEmploye = req.body.idEmploye;
             let result = { message: "Rendez-vous non refuser", status: false };
+            const oneRdv = await RendezVousServices.getById(idRendezVous);
             const updateEmploye = await RendezVousServices.updateEmploye(idRendezVous, idEmploye);
             const updateEtat = await RendezVousServices.updateEtat(idRendezVous, valider.name, valider.color);
+            const updatePayer = await RendezVousServices.updatePayer(idRendezVous, oneRdv.prix);
+            const body = [{
+                entrer: oneRdv.payer,
+                sortie: 0,
+                User: oneRdv.User
+            }];
+            const depotSolde = await PorteFeuilleServices.depotSolde(body);
             if (updateEmploye && updateEtat) {
                 result.message = "Rendez-vous refuser";
                 result.status = true;
             }
             res.status(200).json(result);
+        } catch (error) {
+            res.status(500);
+            throw new error(error.message);
+        }
+    }),
+
+    updateRay: asyncHandler(async (req, res) => {
+        try {
+            const token = req.headers.authorization.split(' ')[1];
+            invalidToken.push(token);
+            let idRendezVous = req.body.idRendezVous;
+            let prix = req.body.payer
+            const updatePayer = await RendezVousServices.updatePayer(idRendezVous, prix);
+            res.status(200).json('Ok');
         } catch (error) {
             res.status(500);
             throw new error(error.message);

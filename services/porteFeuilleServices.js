@@ -46,7 +46,7 @@ const porteFeuilleServices = {
                 // }
             }
             const achat = await PorteFeuille.create(porteFeuilles);
-            return result;
+            return achat;
         } catch (error) {
             throw new error(error.message);
         }

@@ -66,6 +66,17 @@ const authController = {
     }
   }),
 
+  getUserClient: asyncHandler(async (req, res) => {
+    try {
+      const user = await User.findOne({ _id: req.params.id });
+      res.status(200).json(user);
+    } catch (error) {
+      res.status(500);
+      console.log(error);
+      throw new error(error.message);
+    }
+  }),
+
   createAdmin: asyncHandler(async (req, res) => {
     try {
       const { pays, adresse, phone, username, email, password, role, emplois, salaire, image } = req.body;
