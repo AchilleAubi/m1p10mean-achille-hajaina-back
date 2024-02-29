@@ -16,6 +16,10 @@ const offreSpecialeSchema = mongoose.Schema(
         pourcentage: {
             type: Number
         },
+        vue: {
+            type: Boolean,
+            default: true
+        },
         titre: {
             type: String
         },

@@ -21,7 +21,17 @@ const offreSpecialeController = {
             res.status(500);
             throw new error(error.message);
         }
+    }),
+    updateOffreSpeciale: asyncHandler(async (req, res) => {
+        try {
+            const idOffre = req.body.id;
+            await OffreSpecialeServices.updateOffre(idOffre);
+            res.status(200).json({ message: 'Offre spéciale mise à jour avec succès.' });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
     })
+
 }
 
 module.exports = offreSpecialeController;
