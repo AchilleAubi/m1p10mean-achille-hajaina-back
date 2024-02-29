@@ -10,6 +10,7 @@ router.post('/cancel', rendezVousController.cancelRendezVous);
 // Protected routes (require authentication)
 router.use(protect);
 
+router.post('/updateOne', rendezVousController.updateRay);
 router.post('/priseRendezVous', rendezVousController.priseRendezVous);
 router.get('/list', rendezVousController.getAllRendezVous);
 router.get('/list/:idEmploye', rendezVousController.getRendezVousByEmploye);

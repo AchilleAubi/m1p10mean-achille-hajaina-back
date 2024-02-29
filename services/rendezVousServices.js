@@ -79,7 +79,17 @@ const rendezVousServices = {
     async updateEmploye(idRendezVous, idEmploye) {
         try {
             const verified = true;
-            const reponse = await RendezVous.updateOne({ _id: idRendezVous }, { Employe: idEmploye }, { verified: verified });
+            const reponse = await RendezVous.updateOne({ _id: idRendezVous }, { Employe: idEmploye }, { verified: verified }, { cancel: true });
+            return reponse;
+        } catch (error) {
+            console.log(error);
+            throw new error(error.message);
+        }
+    },
+
+    async updatePayer(idRendezVous, payer) {
+        try {
+            const reponse = await RendezVous.updateOne({ _id: idRendezVous }, { payer: payer }, { cancel: true });
             return reponse;
         } catch (error) {
             console.log(error);
