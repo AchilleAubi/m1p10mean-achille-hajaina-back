@@ -35,7 +35,7 @@ const offreSpecialeServices = {
     },
     async updateOffre(idOffre) {
         try {
-            const offreMiseAJour = await OffreSpeciale.updateOne(idOffre, { vue: false }, { new: true });
+            const offreMiseAJour = await OffreSpeciale.updateOne({ _id: idOffre }, { vue: false });
             return offreMiseAJour;
         } catch (error) {
             console.error(error);

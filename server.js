@@ -21,30 +21,13 @@ app.use(cors());
 const server = http.createServer(app);
 const io = require('socket.io')(server, {
   cors: {
-    origin: "http://localhost:4200",
+    origin: "https://m1p10mean-achille-hajaina-front.pages.dev",
     methods: ["GET", "POST", "PUT", "DELETE"]
   }
 });
 
 app.set('io', io);
 
-// cron.schedule('*/20 * * * * *', () => {
-//   RendezVousServices.getRdvValiderByUser("65d76133a703cf711c649f5a").then((data) => {
-//     if (data.length > 0) {
-//       const rdvListItems = data.map(rdv => `${rdv.Service[0].name} - ${rdv.dateTime} - ${rdv.Employe[0].username}/n`).join('');
-//       const emailBody = `
-//                 Voici vos rendez-vous :/n
-//                     ${rdvListItems}/n
-//             `;
-//       email.sendEmail(data[0].User[0].email, "Notification", emailBody).then();
-//     }
-//   }
-
-//   );
-
-// });
-
-// on init
 app.get('/', (req, res) => {
   res.send('Hello');
 });
