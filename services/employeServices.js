@@ -40,7 +40,17 @@ const employeServices = {
             console.log(error);
             throw new error(error.message);
         }
-    }
+    },
+
+    async getEmployeById(IdEmploye) {
+        try {
+            const data = await User.findOne({ _id: IdEmploye, role: 'Emploie', active: true });
+            return data;
+        } catch (error) {
+            console.log(error);
+            throw new error(error.message);
+        }
+    },
 }
 
 module.exports = employeServices;

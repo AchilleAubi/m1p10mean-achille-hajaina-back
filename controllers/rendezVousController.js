@@ -2,6 +2,8 @@ const RendezVousServices = require('../services/rendezVousServices');
 const HoraireTravailServices = require('../services/horaireTravailServices');
 const asyncHandler = require('express-async-handler');
 const PorteFeuilleServices = require('../services/porteFeuilleServices');
+const EmailServices = require('../services/emailServices');
+const EmployeServices = require('../services/employeServices');
 
 let invalidToken = [];
 
@@ -81,10 +83,18 @@ const rendezVousController = {
             let idEmploye = req.body.idEmploye;
             let result = { message: "Rendez non valider", status: false };
             const updateEmploye = await RendezVousServices.updateEmploye(idRendezVous, idEmploye);
-            const updateEtat = await RendezVousServices.updateEtat(idRendezVous, valider.name, valider.color);
-            if (updateEmploye && updateEtat) {
-                result.message = "Rendez valider";
-                result.status = true;
+            let employe = await EmployeServices.getEmployeById(idEmploye);
+            if (employe != null) {
+                const updateEtat = await RendezVousServices.updateEtat(idRendezVous, valider.name, valider.color);
+                if (updateEmploye && updateEtat) {
+                    const message = 'Cher ' + employe.username + ',\n\n Nous espérons que ce message vous trouve bien. Nous sommes ravis de vous informer que votre rendez-vous a été envoyer avec succès sur Charme & Eclat beauté. Nous vous souhaitons la bienvenue dans notre communauté et espérons que vous tirerez le meilleur parti de nos services. \n\n\nCordialement,';
+                    const mail = EmailServices.sendEmail(employe.email, 'Rendez-vous aux Charme & Eclat beauté', message);
+                    result.message = "Rendez valider";
+                    result.status = true;
+                }
+            } else {
+                result.message = "Rendez non valider, employe debaucher";
+                result.status = false;
             }
             res.status(200).json(result);
         } catch (error) {
@@ -102,6 +112,11 @@ const rendezVousController = {
             let idEmploye = req.body.idEmploye;
             let result = { message: "Rendez-vous non refuser", status: false };
             const oneRdv = await RendezVousServices.getById(idRendezVous);
+            let employe = await EmployeServices.getEmployeById(idEmploye);
+            if (employe != null) {
+                const message = 'Cher ' + employe.username + ',\n\n Nous espérons que ce message vous trouve bien. Nous sommes ravis de vous informer que votre rendez-vous a été envoyer avec succès sur Charme & Eclat beauté. Nous vous souhaitons la bienvenue dans notre communauté et espérons que vous tirerez le meilleur parti de nos services. \n\n\nCordialement,';
+                const mail = EmailServices.sendEmail(employe.email, 'Rendez-vous aux Charme & Eclat beauté', message);
+            }
             const updateEmploye = await RendezVousServices.updateEmploye(idRendezVous, idEmploye);
             const updateEtat = await RendezVousServices.updateEtat(idRendezVous, valider.name, valider.color);
             const updatePayer = await RendezVousServices.updatePayer(idRendezVous, oneRdv.prix);
